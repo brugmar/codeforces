@@ -6,11 +6,26 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 
-public class CR_template {
+public class CR260_boredom {
 
     public static void main(String... args) throws IOException {
         MyScanner sc = new MyScanner();
-
+        int n = sc.nextInt();
+        int[] c = new int[100001];
+        long[] dp = new long[100001];
+        
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            int v = sc.nextInt();
+            c[v]++;
+            max = max < v ? v : max;
+        }
+        
+        for (int i = 0; i <= max; i++) {
+            dp[i] = Math.max(1L * c[i] * i + ((i < 2) ? 0 : dp[i-2]), (i < 1) ? 0 : dp[i-1]);
+        }
+        
+        System.out.println(dp[max]);
     }
 
     static class MyScanner {
@@ -25,9 +40,6 @@ public class CR_template {
         public String next() throws IOException {
             if (st == null || !st.hasMoreTokens()) {
                 String line = br.readLine();
-                while (line.isEmpty()){
-                    line = br.readLine();
-                }
                 st = new StringTokenizer(line);
             }
             return st.nextToken();
